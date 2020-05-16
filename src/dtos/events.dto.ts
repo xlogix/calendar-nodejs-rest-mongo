@@ -10,10 +10,10 @@ export class CreateEventDto {
 
     public invitedPeople: Array<string>;
 
-    @IsDate()
+    @IsString()
     public startDate: Date;
 
-    @IsDate()
+    @IsString()
     public endDate: Date;
 
     @IsString()
