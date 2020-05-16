@@ -9,10 +9,10 @@ import validateEnv from './utils/validateEnv';
 validateEnv();
 
 const app = new App([
-  new IndexRoute(),
-  new UsersRoute(),
-  new AuthRoute(),
-  new EventsRoute(),
+    new IndexRoute(),
+    new UsersRoute(),
+    new AuthRoute(),
+    new EventsRoute(),
 ]);
 
 app.listen();
