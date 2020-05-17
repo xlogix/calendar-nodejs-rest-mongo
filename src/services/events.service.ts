@@ -14,14 +14,14 @@ class EventsService {
 
     public async findEventById(eventId: string): Promise<Event> {
         const findEvent: Event = await this.events.findById(eventId);
-        if (!findEvent) throw new HttpException(409, "You're not event");
+        if (!findEvent) throw new HttpException(409, "You're not an event");
 
         return findEvent;
     }
 
     public async createEvent(meetingData: CreateEventDto): Promise<Event> {
         if (isEmptyObject(meetingData))
-            throw new HttpException(400, "You're not meetingData");
+            throw new HttpException(400, "You're not an event");
 
         const createEventData: Event = await this.events.create({ ...meetingData });
 
@@ -29,17 +29,17 @@ class EventsService {
     }
 
     public async updateEvent(eventId: string, eventData: Event): Promise<Event> {
-        if (isEmptyObject(eventData)) throw new HttpException(400, "You're not userData");
+        if (isEmptyObject(eventData)) throw new HttpException(400, "Send more data...");
 
         const updateEventById: Event = await this.events.findByIdAndUpdate(eventId, { ...eventData });
-        if (!updateEventById) throw new HttpException(409, "You're not user");
+        if (!updateEventById) throw new HttpException(409, "You're not an event");
 
         return updateEventById;
     }
 
     public async deleteEventData(eventId: string): Promise<Event> {
         const updateEventById: Event = await this.events.findByIdAndDelete(eventId);
-        if (!updateEventById) throw new HttpException(409, "You're not user");
+        if (!updateEventById) throw new HttpException(409, "You're not an event");
 
         return updateEventById;
     }

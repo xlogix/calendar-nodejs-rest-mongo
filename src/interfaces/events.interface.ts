@@ -3,8 +3,9 @@ export interface Event {
     title: string,
     description: string,
     invitedPeople: Array<string>,
-    startDate: Date,
-    endDate: Date,
-    startHour: string,
-    endHour: string
+    repeat: string,
+    startsAt: Date,
+    endsAt: Date,
+    createDate: Date,
+    modifiedDate: Date
 }

@@ -11,12 +11,6 @@ export const EVENTS = {
 
 export const EVENTS_LIST = Object.values(EVENTS);
 
-export const SUBMIT_STATUS = {
-    CREATED: 'CREATED',
-    UPDATED: 'UPDATED',
-    DELETED: 'DELETED',
-};
-
 export const WEEKDAYS = [
     'Sunday',
     'Monday',

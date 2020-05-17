@@ -18,6 +18,11 @@ const eventSchema = new mongoose.Schema({
         type: Date,
         default: Date.now()
     },
+    invitedPeople: [],
+    repeat: {
+        type: String,
+        default: null
+    },
     createDate: {
         type: Date,
         default: Date.now()
@@ -25,8 +30,7 @@ const eventSchema = new mongoose.Schema({
     modifiedDate: {
         type: Date,
         default: Date.now()
-    },
-    invitedPeople: []
+    }
 });
 
 const eventModel = mongoose.model<Event & mongoose.Document>('Event', eventSchema);
