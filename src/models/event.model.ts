@@ -19,7 +19,11 @@ const eventSchema = new mongoose.Schema({
         default: Date.now()
     },
     invitedPeople: [],
-    repeat: {
+    isRecurring: {
+        type: Boolean,
+        default: false
+    },
+    recurrencePattern: {
         type: String,
         default: null
     },
@@ -31,6 +35,8 @@ const eventSchema = new mongoose.Schema({
         type: Date,
         default: Date.now()
     }
+}, {
+    versionKey: false
 });
 
 const eventModel = mongoose.model<Event & mongoose.Document>('Event', eventSchema);

@@ -1,4 +1,4 @@
-import { IsString } from 'class-validator';
+import { IsString, IsDate } from 'class-validator';
 
 export class CreateEventDto {
 
@@ -6,19 +6,15 @@ export class CreateEventDto {
     public title: string;
 
     @IsString()
-    description: string;
+    public description: string;
 
     public invitedPeople: Array<string>;
 
-    @IsString()
-    public startDate: Date;
+    public startsAt: Date;
 
-    @IsString()
-    public endDate: Date;
+    public endsAt: Date;
 
-    @IsString()
-    public startHour: string;
+    public createDate: Date;
 
-    @IsString()
-    public endHour: string;
+    public modifiedDate: Date;
 }

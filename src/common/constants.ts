@@ -1,16 +1,6 @@
 import moment from 'moment-timezone';
 const now = moment();
 
-export const EVENTS = {
-    OPEN: 'open',
-    CLOSE: 'close',
-    DESTROY: 'destroy',
-    SCHEDULE: 'schedule',
-    ERROR: 'error',
-};
-
-export const EVENTS_LIST = Object.values(EVENTS);
-
 export const WEEKDAYS = [
     'Sunday',
     'Monday',
@@ -23,6 +13,12 @@ export const WEEKDAYS = [
     value: weekday.slice(0, 3).toUpperCase(),
     text: weekday,
 }));
+
+export const MILLISECONDS_IN_SECOND = 1000;
+export const MILLISECONDS_IN_MINUTE = MILLISECONDS_IN_SECOND * 60;
+export const MILLISECONDS_IN_HOUR = MILLISECONDS_IN_MINUTE * 60;
+export const MILLISECONDS_IN_DAY = MILLISECONDS_IN_HOUR * 24;
+export const MILLISECONDS_IN_WEEK = MILLISECONDS_IN_DAY * 7;
 
 export const WEEKDAY_PRESETS = [
     {
@@ -41,6 +37,43 @@ export const WEEKDAY_PRESETS = [
         weekdaySet: new Set(['SAT', 'SUN']),
     },
 ];
+
+export type Weekday = 'SU' | 'MO' | 'TU' | 'WE' | 'TH' | 'FR' | 'SA';
+
+export type TimeUnit = 'year' | 'month' | 'day' | 'hour' | 'minute';
+
+export type Day =
+    | 1
+    | 2
+    | 3
+    | 4
+    | 5
+    | 6
+    | 7
+    | 8
+    | 9
+    | 10
+    | 11
+    | 12
+    | 13
+    | 14
+    | 15
+    | 16
+    | 17
+    | 18
+    | 19
+    | 20
+    | 21
+    | 22
+    | 23
+    | 24
+    | 25
+    | 26
+    | 27
+    | 28
+    | 29
+    | 30
+    | 31;
 
 export const TIME_SLOT_INTERVALS = [
     { value: 15, text: '15 mins', caption: '(0.25 hour)' },
@@ -87,8 +120,3 @@ export const TIME_ZONES = moment.tz.names().map(tz => ({
     text: `(GMT${now.tz(tz).format('Z')}) ${tz.replace(/_/g, ' ')}`,
     value: tz,
 }));
-
-export default {
-    EVENTS,
-    EVENTS_LIST,
-};
