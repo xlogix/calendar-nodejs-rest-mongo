@@ -25,8 +25,8 @@ class EventsService {
         if (findEvent.isRecurring) {
             // Taking EndsAt till the end of the month (for testing) but it can be configured to never end or end at a specific date
             let findEvents = []; findEvents[0] = findEvent;
-            let startDate = moment(findEvents[0].startsAt).format('DD');
-            let endDate = moment().endOf('month').format('DD');
+            let startDate = moment(findEvents[0].startsAt).format();
+            let endDate = moment().endOf('month').format();
             // Daily
             if (findEvent.recurrencePattern === "Daily") {
                 console.log(" I'm inside Daily");
@@ -39,7 +39,7 @@ class EventsService {
                     temp.endsAt = moment(temp.endsAt).add(1, 'days').format();
                     // Increment the index & startDate
                     previousEventIndex++;
-                    startDate = moment(temp.startsAt).format('DD');
+                    startDate = moment(temp.startsAt).format();
                     // Push it into the array
                     findEvents.push(temp);
                 }
@@ -49,7 +49,7 @@ class EventsService {
             else if (findEvent.recurrencePattern === "Weekdays") {
                 console.log(" I'm inside Weekdays");
                 let previousEventIndex = 0; let temp: Event;
-                while (startDate != endDate) {
+                while (startDate != endDate && startDate <= endDate) {
                     temp = JSON.parse(JSON.stringify(findEvents[previousEventIndex]));
                     // Increment the date
                     temp.uid = uuid();
@@ -57,7 +57,7 @@ class EventsService {
                     temp.endsAt = momentBusiness(temp.endsAt).businessAdd(1, 'days').format();
                     // Increment the index & startDate
                     previousEventIndex++;
-                    startDate = moment(temp.startsAt).format('DD');
+                    startDate = moment(temp.startsAt).format();
                     // Push it into the array
                     findEvents.push(temp);
                 }
@@ -67,20 +67,25 @@ class EventsService {
             else if (findEvent.recurrencePattern === "Weekends") {
                 console.log(" I'm inside Weekends");
                 let previousEventIndex = 0; let temp: Event;
-                while (startDate != endDate) {
+                while (startDate != endDate && startDate <= endDate) {
+                    // Copy Event
                     temp = JSON.parse(JSON.stringify(findEvents[previousEventIndex]));
-                    // Increment the date
-                    temp._id = uuid();
-                    temp.startsAt = moment(temp.startsAt).day("Saturday").format();
-                    temp.endsAt = moment(temp.endsAt).day("Sunday").format();
-                    // Increment the index & startDate
-                    previousEventIndex++;
-                    startDate = moment(temp.startsAt).format('DD');
+                    // Add for Saturday
+                    temp.uid = uuid();
+                    temp.startsAt = moment(temp.startsAt).day(6).format();
+                    temp.endsAt = moment(temp.endsAt).day(6).format();
                     // Push it into the array
                     findEvents.push(temp);
-                    // Increment to the next week
-                    temp.startsAt = moment(temp.startsAt).add(1, 'week').format();
-                    temp.endsAt = moment(temp.startsAt).add(1, 'week').format();
+                    // Copy Event
+                    temp = JSON.parse(JSON.stringify(findEvents[previousEventIndex]));
+                    // Add for Sunday
+                    temp.uid = uuid();
+                    temp.startsAt = moment(temp.startsAt).day(7).format();
+                    temp.endsAt = moment(temp.endsAt).day(7).format();
+                    // Push it into the array
+                    findEvents.push(temp);
+                    // Increment the index & startDate
+                    previousEventIndex++; startDate = moment(temp.startsAt).add(1, 'days').format();
                 }
                 return findEvents;
             }
