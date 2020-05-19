@@ -19,7 +19,7 @@ class EventsController {
         const eventId: string = req.params.id;
 
         try {
-            const findOneEventData: Event = await this.eventsService.findEventById(eventId);
+            const findOneEventData: Event | Event[] = await this.eventsService.findEventById(eventId);
             res.status(200).json({ data: findOneEventData, message: 'findOne' });
         } catch (error) {
             next(error);

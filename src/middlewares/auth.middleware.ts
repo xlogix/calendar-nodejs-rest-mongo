@@ -1,5 +1,5 @@
 import { NextFunction, Response } from 'express';
-import * as jwt from 'jsonwebtoken';
+import { verify } from 'jsonwebtoken';
 import HttpException from '../exceptions/HttpException';
 import { DataStoredInToken, RequestWithUser } from '../interfaces/auth.interface';
 import userModel from '../models/users.model';
@@ -11,7 +11,7 @@ async function authMiddleware(req: RequestWithUser, res: Response, next: NextFun
         const secret = process.env.JWT_SECRET;
 
         try {
-            const verificationResponse = jwt.verify(cookies.Authorization, secret) as DataStoredInToken;
+            const verificationResponse = verify(cookies.Authorization, secret) as DataStoredInToken;
             const userId = verificationResponse._id;
             const findUser = await userModel.findById(userId);
 

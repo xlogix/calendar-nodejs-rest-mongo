@@ -32,7 +32,7 @@ class EventsService {
                 console.log(" I'm inside Daily");
                 let previousEventIndex = 0;
                 while (startDate != endDate) {
-                    let temp: any = findEvents[previousEventIndex];
+                    let temp: Event = findEvents[previousEventIndex];
                     // Increment the date
                     temp.uid = uuid();
                     temp.startsAt = moment(temp.startsAt).add(1, 'days').format();
@@ -50,7 +50,7 @@ class EventsService {
                 console.log(" I'm inside Weekdays");
                 let previousEventIndex = 0;
                 while (startDate != endDate) {
-                    let temp: any = findEvents[previousEventIndex];
+                    let temp: Event = findEvents[previousEventIndex];
                     // Increment the date
                     temp.uid = uuid();
                     temp.startsAt = momentBusiness(temp.startsAt).businessAdd(1, 'days').format();
@@ -68,7 +68,7 @@ class EventsService {
                 console.log(" I'm inside Weekends");
                 let previousEventIndex = 0;
                 while (startDate != endDate) {
-                    let temp: any = findEvents[previousEventIndex];
+                    let temp: Event = findEvents[previousEventIndex];
                     // Increment the date
                     temp._id = uuid();
                     temp.startsAt = moment(temp.startsAt).day("Saturday").format();
