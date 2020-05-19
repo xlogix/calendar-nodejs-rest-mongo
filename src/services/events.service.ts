@@ -19,7 +19,7 @@ class EventsService {
         return events;
     }
 
-    public async findEventById(eventId: string): Promise<Event[] | Event> {
+    public async findEventById(eventId: string): Promise<Event | Event[]> {
         const findEvent: Event = await this.events.findById(eventId);
         if (!findEvent) throw new HttpException(409, "You're not an event");
         if (findEvent.isRecurring) {
@@ -30,9 +30,9 @@ class EventsService {
             // Daily
             if (findEvent.recurrencePattern === "Daily") {
                 console.log(" I'm inside Daily");
-                let previousEventIndex = 0;
+                let previousEventIndex = 0; let temp: Event;
                 while (startDate != endDate) {
-                    let temp: Event = findEvents[previousEventIndex];
+                    temp = JSON.parse(JSON.stringify(findEvents[previousEventIndex]));
                     // Increment the date
                     temp.uid = uuid();
                     temp.startsAt = moment(temp.startsAt).add(1, 'days').format();
@@ -48,9 +48,9 @@ class EventsService {
             // Weekdays
             else if (findEvent.recurrencePattern === "Weekdays") {
                 console.log(" I'm inside Weekdays");
-                let previousEventIndex = 0;
+                let previousEventIndex = 0; let temp: Event;
                 while (startDate != endDate) {
-                    let temp: Event = findEvents[previousEventIndex];
+                    temp = JSON.parse(JSON.stringify(findEvents[previousEventIndex]));
                     // Increment the date
                     temp.uid = uuid();
                     temp.startsAt = momentBusiness(temp.startsAt).businessAdd(1, 'days').format();
@@ -66,9 +66,9 @@ class EventsService {
             // Weekends
             else if (findEvent.recurrencePattern === "Weekends") {
                 console.log(" I'm inside Weekends");
-                let previousEventIndex = 0;
+                let previousEventIndex = 0; let temp: Event;
                 while (startDate != endDate) {
-                    let temp: Event = findEvents[previousEventIndex];
+                    temp = JSON.parse(JSON.stringify(findEvents[previousEventIndex]));
                     // Increment the date
                     temp._id = uuid();
                     temp.startsAt = moment(temp.startsAt).day("Saturday").format();
