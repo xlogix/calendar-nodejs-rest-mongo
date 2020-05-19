@@ -30,7 +30,7 @@
         "ts-jest": "^25.5.1",
         "ts-node": "^8.10.1",
         "typescript": "^3.9.2",
-        "uuid": "^8.0.0"
+        "uuidv4": "^6.0.8"
     },
     "devDependencies": {
         "@types/bcrypt": "^3.0.0",
