@@ -5,7 +5,7 @@ import { isEmptyObject } from '../utils/util';
 import { CreateEventDto } from 'dtos/events.dto';
 import { Event } from 'interfaces/events.interface';
 import * as moment from 'moment';
-var momentBusiness = require('moment-business-days');
+import * as momentBusiness from 'moment-business-days';
 
 momentBusiness.updateLocale('us', {
     workingWeekdays: [1, 2, 3, 4, 5]
@@ -23,7 +23,7 @@ class EventsService {
         const findEvent: Event = await this.events.findById(eventId);
         if (!findEvent) throw new HttpException(409, "You're not an event");
         if (findEvent.isRecurring) {
-            // Taking EndsAt till the end of the month (for testing) but it can be configured to never end or end at a specific date
+            // Taking endDate till the end of the month (for testing) but it can be configured to be infinite or end at a specific date
             let findEvents = []; findEvents[0] = findEvent;
             let startDate = moment(findEvents[0].startsAt).format();
             let endDate = moment().endOf('month').format();
@@ -31,7 +31,7 @@ class EventsService {
             if (findEvent.recurrencePattern === "Daily") {
                 console.log(" I'm inside Daily");
                 let previousEventIndex = 0; let temp: Event;
-                while (startDate != endDate) {
+                while (startDate <= endDate) {
                     temp = JSON.parse(JSON.stringify(findEvents[previousEventIndex]));
                     // Increment the date
                     temp.uid = uuid();
@@ -39,7 +39,7 @@ class EventsService {
                     temp.endsAt = moment(temp.endsAt).add(1, 'days').format();
                     // Increment the index & startDate
                     previousEventIndex++;
-                    startDate = moment(temp.startsAt).format();
+                    startDate = moment(temp.endsAt).format();
                     // Push it into the array
                     findEvents.push(temp);
                 }
@@ -49,7 +49,7 @@ class EventsService {
             else if (findEvent.recurrencePattern === "Weekdays") {
                 console.log(" I'm inside Weekdays");
                 let previousEventIndex = 0; let temp: Event;
-                while (startDate != endDate && startDate <= endDate) {
+                while (startDate <= endDate) {
                     temp = JSON.parse(JSON.stringify(findEvents[previousEventIndex]));
                     // Increment the date
                     temp.uid = uuid();
@@ -57,7 +57,7 @@ class EventsService {
                     temp.endsAt = momentBusiness(temp.endsAt).businessAdd(1, 'days').format();
                     // Increment the index & startDate
                     previousEventIndex++;
-                    startDate = moment(temp.startsAt).format();
+                    startDate = moment(temp.endsAt).format();
                     // Push it into the array
                     findEvents.push(temp);
                 }
@@ -67,7 +67,7 @@ class EventsService {
             else if (findEvent.recurrencePattern === "Weekends") {
                 console.log(" I'm inside Weekends");
                 let previousEventIndex = 0; let temp: Event;
-                while (startDate != endDate && startDate <= endDate) {
+                while (startDate <= endDate) {
                     // Copy Event
                     temp = JSON.parse(JSON.stringify(findEvents[previousEventIndex]));
                     // Add for Saturday
@@ -85,7 +85,7 @@ class EventsService {
                     // Push it into the array
                     findEvents.push(temp);
                     // Increment the index & startDate
-                    previousEventIndex++; startDate = moment(temp.startsAt).add(1, 'days').format();
+                    previousEventIndex++; startDate = moment(temp.endsAt).add(1, 'days').format();
                 }
                 return findEvents;
             }
